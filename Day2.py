@@ -29,8 +29,14 @@ class Hacker:
     def remember_button(self):
         self.buttons.append((self.y, self.x))
 
+    def get_sequence(self):
+        seq = []
+        for button in self.buttons:
+            seq.append(self.keypad[button[1]][button[0]])
+        return seq
 h = Hacker(keypad)
 for line in data:
     for command in line:
         h.do_command(command)
     h.remember_button()
+print(h.get_sequence())
