@@ -1,9 +1,12 @@
 import re
-
+import time
 with open('Day8.in', 'r') as f:
     data = f.readlines()
 
-mat = [["." for i in range(50)] for j in range(6)]
+unlit = " "
+lit = "█"
+
+mat = [[unlit for i in range(50)] for j in range(6)]
 
 def swap(m, i1, j1, i2, j2):
     m[i1][j1], m[i2][j2] = m[i2][j2], m[i1][j1]
@@ -33,6 +36,7 @@ def shift(m, x=0, column=True, dir=1):
                     swap(m, i, j, i, j+1)
 
 def print_matrix(m):
+    print("\n" * 100)
     for i in range(0, len(m)):
         for j in range(0, len(m[i])):
             print(mat[i][j], end="")
@@ -44,14 +48,16 @@ for line in data:
         params = command[1].split("x")
         x = int(params[0])
         y = int(params[1])
-        rect(mat, x, y, "#")
+        rect(mat, x, y, lit)
     elif command[0] == "rotate":
         amount = int(command[-1])
         column = command[1] == "column"
         index = int(command[2].split("=")[1])
         for i in range(0, amount):
             shift(mat, index, column, 1)
+    print_matrix(mat)
+    time.sleep(0.05)
 
-c = [mat[i].count("#") for i in range(len(mat))]
-print(sum(c))
+c = [mat[i].count(lit) for i in range(len(mat))]
 print_matrix(mat)
+print("%d pixels lit up!" % sum(c))
